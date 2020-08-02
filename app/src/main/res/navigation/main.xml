@@ -25,4 +25,9 @@
         android:name="com.example.minhaobra.AjudaFragment"
         android:label="Ajuda"
         tools:layout="@layout/fragment_ajuda" />
+    <fragment
+        android:id="@+id/nav_cadastro_profissional"
+        android:name="com.example.minhaobra.CadastroProfissionalFragment"
+        android:label="Cadastro Profissional"
+        tools:layout="@layout/fragment_cadastro_profissional" />
 </navigation>

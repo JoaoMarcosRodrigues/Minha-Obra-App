@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/buscar"
+        android:title="Buscar"
+        android:icon="@drawable/ic_buscar"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView"/>
+
     <item android:id="@+id/nav_home"
         android:title="Home"
         android:icon="@drawable/ic_home"/>
@@ -7,6 +15,10 @@
     <item android:id="@+id/nav_perfil"
         android:title="Perfil"
         android:icon="@drawable/ic_perfil"/>
+
+    <item android:id="@+id/nav_cadastro_profissional"
+        android:title="Cadastrar profissional"
+        android:icon="@drawable/ic_cadastro_profissional"/>
 
     <item android:id="@+id/nav_sobre"
         android:title="Sobre"

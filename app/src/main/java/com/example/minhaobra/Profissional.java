@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Profissional {
     String nomeCompleto;
+    String dataNascimento;
     String cpf;
     String telefone;
     String email;
@@ -65,5 +66,13 @@ public class Profissional {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 }

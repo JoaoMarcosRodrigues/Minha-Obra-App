@@ -11,18 +11,11 @@
         android:layout_margin="15dp"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/viewBusca"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:defaultQueryHint="Buscar..."/>
-
-        <ListView
-            android:id="@+id/listaProfissionais"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/viewBusca"
-            android:layout_alignParentBottom="true"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </RelativeLayout>
 
