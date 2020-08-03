@@ -3,40 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CadastroProfissionalFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/viewTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cadastre-se"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_margin="20dp"
-            android:layout_centerHorizontal="true"/>
+
 
         <ScrollView
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/viewTitulo">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <TextView
+                    android:id="@+id/viewTitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cadastre-se"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_margin="20dp"
+                    android:layout_centerHorizontal="true"/>
+
                 <ImageButton
                     android:id="@+id/fotoPerfil"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_cadastro_profissional"
                     android:layout_marginTop="30dp"
-                    android:src="@drawable/ic_cadastro_profissional" />
+                    android:layout_below="@+id/viewTitulo"/>
 
                 <EditText
                     android:id="@+id/editNomeCompleto"
@@ -46,46 +48,39 @@
                     android:hint="Nome completo"
                     android:layout_margin="15dp"/>
 
-                <EditText
+                <com.santalu.maskedittext.MaskEditText
                     android:id="@+id/editCPF"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/editNomeCompleto"
                     android:hint="CPF"
                     android:layout_margin="15dp"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    app:met_mask="###.###.###-##"/>
 
-                <TextView
-                    android:id="@+id/viewDataNascimento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Data de nascimento"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/editCPF"/>
-
-                <EditText
+                <com.santalu.maskedittext.MaskEditText
                     android:id="@+id/editDataNascimento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="date"
-                    android:layout_below="@+id/viewDataNascimento"
-                    android:hint="Ex.: 01/01/1991"
+                    android:layout_below="@+id/editCPF"
+                    android:hint="Data de nascimento"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginBottom="15dp"/>
+                    android:layout_marginBottom="15dp"
+                    app:met_mask="##/##/####"/>
 
-                <EditText
+                <com.santalu.maskedittext.MaskEditText
                     android:id="@+id/editTelefone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:hint="Telefone"
                     android:layout_below="@+id/editDataNascimento"
-                    android:layout_margin="15dp"/>
+                    android:layout_margin="15dp"
+                    app:met_mask="(##) #####-####"/>
 
                 <EditText
                     android:id="@+id/editEmail"
