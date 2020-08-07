@@ -1,10 +1,20 @@
 package com.example.minhaobra;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +25,12 @@ import android.widget.Toast;
 
 import com.santalu.maskedittext.MaskEditText;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,12 +51,17 @@ public class CadastroProfissionalFragment extends Fragment {
     EditText editEmail;
     MaskEditText editCpf;
     EditText editEspecialidade;
+    EditText editSenha;
+    EditText editResenha;
     Button btnCadastrar;
 
     // PARA PEGAR APENAS OS NÚMEROS SEM A MÁSCARA USA-SE getRawText()
 
     Profissional p;
     List<Profissional> listaProfissionais;
+
+    private static final int IMAGE_PICK_CODE = 1000;
+    private static final int PERMISSION_CODE = 1001;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -84,7 +103,7 @@ public class CadastroProfissionalFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cadastro_profissional, container, false);;
 
-        imageButton = view.findViewById(R.id.imagemPerfil);
+        imageButton = view.findViewById(R.id.fotoPerfil);
 
         btnCadastrar = view.findViewById(R.id.btnCadastrar);
 
@@ -94,9 +113,29 @@ public class CadastroProfissionalFragment extends Fragment {
         editNome = view.findViewById(R.id.editNomeCompleto);
         editEspecialidade = view.findViewById(R.id.editEspecialidade);
         editTelefone = view.findViewById(R.id.editTelefone);
+        editSenha = view.findViewById(R.id.editSenha);
+        editResenha = view.findViewById(R.id.editResenha);
 
         p = new Profissional();
         listaProfissionais = new ArrayList<Profissional>();
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.READ_EXTERNAL_STORAGE);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    /*
+                    if(permissionCheck == PackageManager.PERMISSION_DENIED){
+                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        requestPermissions(permissions,PERMISSION_CODE);
+                    }else{
+                     */
+                        pegarImagemGaleria();
+                } else{
+                    pegarImagemGaleria();
+                }
+            }
+        });
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +152,10 @@ public class CadastroProfissionalFragment extends Fragment {
                     editEmail.setError("Campo obrigatório!");
                 }else if(editEspecialidade.length() == 0){
                     editEspecialidade.setError("Campo obrigatório!");
+                }else if(editSenha.length() == 0){
+                    editSenha.setError("Campo obrigatório!");
+                }else if(!editSenha.equals(editResenha)){
+                    editResenha.setError("Senha não confere!");
                 }else{
                     cadastrarProfissional();
                     Toast.makeText(getContext(),"Profissional cadastrado!",Toast.LENGTH_SHORT).show();
@@ -124,6 +167,33 @@ public class CadastroProfissionalFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE){
+            imageButton.setImageURI(data.getData());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case PERMISSION_CODE:{
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    pegarImagemGaleria();
+                }else{
+                    Toast.makeText(getContext(),"Permissão negada!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void pegarImagemGaleria() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,IMAGE_PICK_CODE);
     }
 
     private void limparCampos() {
