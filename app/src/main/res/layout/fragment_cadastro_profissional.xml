@@ -10,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
         <ScrollView
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
@@ -35,8 +33,10 @@
                     android:id="@+id/fotoPerfil"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:backgroundTintMode="screen"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_foto"
+                    android:background="@drawable/ic_foto"
+                    android:backgroundTint="#B3B5B4"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="20dp"
                     android:layout_below="@+id/viewTitulo"
@@ -45,18 +45,20 @@
                 <EditText
                     android:id="@+id/editNomeCompleto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_below="@+id/fotoPerfil"
                     android:drawableLeft="@drawable/ic_nome"
                     android:drawablePadding="10dp"
                     android:paddingLeft="10dp"
                     android:hint="Nome completo"
+                    android:background="@drawable/round_edit"
                     android:layout_margin="15dp"/>
 
                 <com.santalu.maskedittext.MaskEditText
                     android:id="@+id/editCPF"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
                     android:layout_below="@+id/editNomeCompleto"
                     android:hint="CPF"
                     android:layout_margin="15dp"
@@ -69,7 +71,8 @@
                 <com.santalu.maskedittext.MaskEditText
                     android:id="@+id/editDataNascimento"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
                     android:ems="10"
                     android:inputType="date"
                     android:layout_below="@+id/editCPF"
@@ -86,7 +89,8 @@
                 <com.santalu.maskedittext.MaskEditText
                     android:id="@+id/editTelefone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
                     android:inputType="phone"
                     android:hint="Telefone"
                     android:layout_below="@+id/editDataNascimento"
@@ -99,7 +103,8 @@
                 <EditText
                     android:id="@+id/editEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
                     android:inputType="textEmailAddress"
                     android:hint="Email"
                     android:layout_below="@+id/editTelefone"
@@ -111,7 +116,8 @@
                 <EditText
                     android:id="@+id/editEspecialidade"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
                     android:hint="Especialidade"
                     android:layout_below="@+id/editEmail"
                     android:drawableLeft="@drawable/ic_especialidade"
@@ -119,13 +125,26 @@
                     android:paddingLeft="10dp"
                     android:layout_margin="15dp"/>
 
+                <MultiAutoCompleteTextView
+                    android:id="@+id/editDescricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
+                    android:hint="Descrição"
+                    android:layout_margin="15dp"
+                    android:drawableLeft="@drawable/ic_descricao"
+                    android:drawablePadding="10dp"
+                    android:paddingLeft="10dp"
+                    android:layout_below="@+id/editEspecialidade"/>
+
                 <EditText
                     android:id="@+id/editSenha"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
                     android:inputType="numberPassword"
                     android:hint="Senha"
-                    android:layout_below="@+id/editEspecialidade"
+                    android:layout_below="@+id/editDescricao"
                     android:drawableLeft="@drawable/ic_senha"
                     android:drawablePadding="10dp"
                     android:paddingLeft="10dp"
@@ -134,7 +153,8 @@
                 <EditText
                     android:id="@+id/editResenha"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_edit"
                     android:inputType="numberPassword"
                     android:hint="Confirme a senha"
                     android:layout_below="@+id/editSenha"
@@ -148,10 +168,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cadastrar"
-                    android:background="@drawable/round_button"
                     android:layout_below="@+id/editResenha"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="20dp"/>
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <Button
+                    android:id="@+id/btnExcluir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Excluir"
+                    android:layout_below="@+id/btnCadastrar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"/>
 
             </RelativeLayout>
         </ScrollView>

@@ -1,6 +1,7 @@
 package com.example.minhaobra;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
@@ -20,8 +23,10 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
-    List<String> profissionaisLista;
-
+    ListView lista;
+    ProfissionalAdapter profissionalAdapter;
+    ArrayList<Profissional> profissionais;
+    private Profissional profissionalEdicao;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -37,31 +42,38 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        lista = view.findViewById(R.id.listView);
 
-        profissionaisLista = new ArrayList<>();
+        profissionais = new Profissional(getContext()).getProfissionais();
+        profissionalAdapter = new ProfissionalAdapter(getContext(),profissionais);
 
+        lista.setAdapter(profissionalAdapter);
 
-        RecyclerView r = view.findViewById(R.id.recyclerView);
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(profissionaisLista);
-
-        //r.setLayoutManager(new LinearLayoutManager(getContext()));
-        r.setAdapter(recyclerAdapter);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
-        r.addItemDecoration(dividerItemDecoration);
-
-        profissionaisLista.add("1");
-        profissionaisLista.add("2");
-        profissionaisLista.add("3");
-        profissionaisLista.add("4");
-        profissionaisLista.add("5");
-        profissionaisLista.add("6");
-        profissionaisLista.add("7");
-        profissionaisLista.add("8");
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Profissional p = profissionais.get(position);
+                Intent intent = new Intent(getContext(),CadastroProfissionalFragment.class);
+                intent.putExtra("consulta",p.getCpf());
+                startActivity(intent);
+            }
+        });
 
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(profissionalEdicao!=null){
+            profissionalEdicao.carregaProfissionalCPF(profissionalEdicao.getCpf());
+            if(profissionalEdicao.isExcluir()){
+                profissionais.remove(profissionalEdicao);
+            }
+            profissionalAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

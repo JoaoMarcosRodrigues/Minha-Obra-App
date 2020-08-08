@@ -1,20 +1,14 @@
 package com.example.minhaobra;
 
-import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +19,7 @@ import android.widget.Toast;
 
 import com.santalu.maskedittext.MaskEditText;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -53,12 +44,15 @@ public class CadastroProfissionalFragment extends Fragment {
     EditText editEspecialidade;
     EditText editSenha;
     EditText editResenha;
+    EditText editDescricao;
     Button btnCadastrar;
+    Button btnExcluir;
 
     // PARA PEGAR APENAS OS NÚMEROS SEM A MÁSCARA USA-SE getRawText()
 
-    Profissional p;
-    List<Profissional> listaProfissionais;
+    private final Profissional p = new Profissional(getContext());
+    private Profissional profissionalEdicao;
+    ArrayList<Profissional> profissionais;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
@@ -106,7 +100,9 @@ public class CadastroProfissionalFragment extends Fragment {
         imageButton = view.findViewById(R.id.fotoPerfil);
 
         btnCadastrar = view.findViewById(R.id.btnCadastrar);
+        btnExcluir = view.findViewById(R.id.btnExcluir);
 
+        editDescricao = view.findViewById(R.id.editDescricao);
         editCpf = view.findViewById(R.id.editCPF);
         editDataNascimento = view.findViewById(R.id.editDataNascimento);
         editEmail = view.findViewById(R.id.editEmail);
@@ -115,9 +111,6 @@ public class CadastroProfissionalFragment extends Fragment {
         editTelefone = view.findViewById(R.id.editTelefone);
         editSenha = view.findViewById(R.id.editSenha);
         editResenha = view.findViewById(R.id.editResenha);
-
-        p = new Profissional();
-        listaProfissionais = new ArrayList<Profissional>();
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +147,9 @@ public class CadastroProfissionalFragment extends Fragment {
                     editEspecialidade.setError("Campo obrigatório!");
                 }else if(editSenha.length() == 0){
                     editSenha.setError("Campo obrigatório!");
-                }else if(!editSenha.equals(editResenha)){
+                }else if(editDescricao.length() == 0){
+                    editDescricao.setError("Campo obrigatório!");
+                }else if(!editSenha.getText().toString().equals(editResenha.getText().toString())) {
                     editResenha.setError("Senha não confere!");
                 }else{
                     cadastrarProfissional();
@@ -164,6 +159,42 @@ public class CadastroProfissionalFragment extends Fragment {
             }
         });
 
+        btnExcluir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                p.excluir();
+                Toast.makeText(getContext(),"Profissional excluído!",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(),HomeFragment.class);
+                profissionalEdicao = p;
+                startActivity(intent);
+            }
+        });
+
+        if(getActivity().getIntent().getExtras() != null){
+            getActivity().setTitle(R.string.titulo_editando);
+            String cpf = getActivity().getIntent().getExtras().getString("consulta");
+            p.carregaProfissionalCPF(cpf);
+
+            if(p.getAvatar() != null){
+                imageButton.setImageBitmap(p.getAvatar());
+            }
+            editCpf.setText(p.getCpf().toString());
+            editNome.setText(p.getNomeCompleto().toString());
+            editEmail.setText(p.getEmail().toString());
+            editTelefone.setText(p.getTelefone().toString());
+            editEspecialidade.setText(p.getEspecialidade().toString());
+            editDataNascimento.setText(p.getDataNascimento().toString());
+            editDescricao.setText(p.getDescricao().toString());
+            editSenha.setText(p.getSenha().toString());
+            editResenha.setText(p.getSenha().toString());
+        }else{
+            getActivity().setTitle(R.string.titulo_inserindo);
+        }
+
+        btnExcluir.setEnabled(true);
+        if(Integer.parseInt(p.getCpf()) == -1){
+            btnExcluir.setEnabled(false);
+        }
 
         // Inflate the layout for this fragment
         return view;
@@ -206,13 +237,37 @@ public class CadastroProfissionalFragment extends Fragment {
     }
 
     private void cadastrarProfissional() {
-        p.nomeCompleto = editNome.getText().toString();
-        p.cpf = editCpf.getRawText();
-        p.dataNascimento = editDataNascimento.getRawText();
-        p.email = editEmail.getText().toString();
-        p.telefone = editTelefone.getRawText();
-        p.especialidade = editEspecialidade.getText().toString();
+        p.setCpf(editCpf.getRawText());
+        p.setNomeCompleto(editNome.getText().toString());
+        p.setEmail(editEmail.getText().toString());
+        p.setTelefone(editTelefone.getRawText());
+        p.setDataNascimento(editDataNascimento.getRawText());
+        p.setEspecialidade(editEspecialidade.getText().toString());
+        p.setDescricao(editDescricao.getText().toString());
+        carregaImagem();
 
-        listaProfissionais.add(p);
+        p.salvar();
+    }
+
+    private void carregaImagem() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                p.setImagem(Auxilio.getImagemBytesFromUrl(p.getUrlGravatar()));
+                imageButton.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageButton.setImageBitmap(p.getAvatar());
+                    }
+                });
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

@@ -21,6 +21,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     List<String> profissionaisList;
     List<String> profissionaisListAll;
+    ArrayList<Profissional> profissionais;
 
     public RecyclerAdapter(List<String> profissionaisList) {
         this.profissionaisList = profissionaisList;
