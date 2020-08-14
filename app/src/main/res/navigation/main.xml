@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main.xml"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/nav_sair">
 
     <fragment
         android:id="@+id/nav_home"
@@ -30,4 +30,9 @@
         android:name="com.example.minhaobra.CadastroProfissionalFragment"
         android:label="Cadastro Profissional"
         tools:layout="@layout/fragment_cadastro_profissional" />
+    <activity
+        android:id="@+id/nav_sair"
+        android:name="com.example.minhaobra.Login"
+        android:label="Sair"
+        tools:layout="@layout/activity_login" />
 </navigation>

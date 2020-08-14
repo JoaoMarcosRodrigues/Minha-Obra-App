@@ -74,5 +74,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
+
+    public Cursor verificaCPF(String cpf, String senha){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT cpf,senha FROM profissional WHERE cpf == "+cpf+" && senha == "+senha;
+        Cursor cursor = db.rawQuery(sql,null);
+
+        return cursor;
+    }
 }
 
