@@ -1,5 +1,6 @@
 package com.example.minhaobra;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -46,13 +47,10 @@ public class CadastroProfissionalFragment extends Fragment {
     EditText editResenha;
     EditText editDescricao;
     Button btnCadastrar;
-    Button btnExcluir;
+
+    DBHelper dbHelper;
 
     // PARA PEGAR APENAS OS NÚMEROS SEM A MÁSCARA USA-SE getRawText()
-
-    private final Profissional p = new Profissional(getContext());
-    private Profissional profissionalEdicao;
-    ArrayList<Profissional> profissionais;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
@@ -98,10 +96,7 @@ public class CadastroProfissionalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cadastro_profissional, container, false);;
 
         imageButton = view.findViewById(R.id.fotoPerfil);
-
         btnCadastrar = view.findViewById(R.id.btnCadastrar);
-        btnExcluir = view.findViewById(R.id.btnExcluir);
-
         editDescricao = view.findViewById(R.id.editDescricao);
         editCpf = view.findViewById(R.id.editCPF);
         editDataNascimento = view.findViewById(R.id.editDataNascimento);
@@ -111,6 +106,8 @@ public class CadastroProfissionalFragment extends Fragment {
         editTelefone = view.findViewById(R.id.editTelefone);
         editSenha = view.findViewById(R.id.editSenha);
         editResenha = view.findViewById(R.id.editResenha);
+
+        dbHelper = new DBHelper(getActivity());
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +119,7 @@ public class CadastroProfissionalFragment extends Fragment {
                         String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
                         requestPermissions(permissions,PERMISSION_CODE);
                     }else{
+
                      */
                         pegarImagemGaleria();
                 } else{
@@ -133,68 +131,41 @@ public class CadastroProfissionalFragment extends Fragment {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editNome.length() == 0){
+                String cpf = editCpf.getRawText().toString();
+                String nome = editNome.getText().toString();
+                String telefone = editTelefone.getRawText().toString();
+                String email = editEmail.getText().toString();
+                String senha = editSenha.getText().toString();
+                String especialidade = editEspecialidade.getText().toString();
+                String data_nascimento = editDataNascimento.getRawText().toString();
+                String descricao = editDescricao.getText().toString();
+
+                if(nome.length() == 0){
                     editNome.setError("Campo obrigatório!");
-                }else if(editCpf.length() == 0){
+                }else if(cpf.length() == 0){
                     editCpf.setError("Campo obrigatório!");
-                }else if(editDataNascimento.length() == 0){
+                }else if(data_nascimento.length() == 0){
                     editDataNascimento.setError("Campo obrigatório!");
-                }else if(editTelefone.length() == 0){
+                }else if(telefone.length() == 0){
                     editTelefone.setError("Campo obrigatório!");
-                }else if(editEmail.length() == 0){
+                }else if(email.length() == 0){
                     editEmail.setError("Campo obrigatório!");
-                }else if(editEspecialidade.length() == 0){
+                }else if(especialidade.length() == 0){
                     editEspecialidade.setError("Campo obrigatório!");
-                }else if(editSenha.length() == 0){
+                }else if(senha.length() == 0){
                     editSenha.setError("Campo obrigatório!");
-                }else if(editDescricao.length() == 0){
+                }else if(descricao.length() == 0){
                     editDescricao.setError("Campo obrigatório!");
                 }else if(!editSenha.getText().toString().equals(editResenha.getText().toString())) {
                     editResenha.setError("Senha não confere!");
                 }else{
-                    cadastrarProfissional();
-                    Toast.makeText(getContext(),"Profissional cadastrado!",Toast.LENGTH_SHORT).show();
+                    // Verificar se o profissional já tem cadastro
+                    addLista(cpf,nome,data_nascimento,telefone,email,especialidade,descricao,senha);
                     limparCampos();
                 }
             }
         });
 
-        btnExcluir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                p.excluir();
-                Toast.makeText(getContext(),"Profissional excluído!",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),HomeFragment.class);
-                profissionalEdicao = p;
-                startActivity(intent);
-            }
-        });
-
-        if(getActivity().getIntent().getExtras() != null){
-            getActivity().setTitle(R.string.titulo_editando);
-            String cpf = getActivity().getIntent().getExtras().getString("consulta");
-            p.carregaProfissionalCPF(cpf);
-
-            if(p.getAvatar() != null){
-                imageButton.setImageBitmap(p.getAvatar());
-            }
-            editCpf.setText(p.getCpf().toString());
-            editNome.setText(p.getNomeCompleto().toString());
-            editEmail.setText(p.getEmail().toString());
-            editTelefone.setText(p.getTelefone().toString());
-            editEspecialidade.setText(p.getEspecialidade().toString());
-            editDataNascimento.setText(p.getDataNascimento().toString());
-            editDescricao.setText(p.getDescricao().toString());
-            editSenha.setText(p.getSenha().toString());
-            editResenha.setText(p.getSenha().toString());
-        }else{
-            getActivity().setTitle(R.string.titulo_inserindo);
-        }
-
-        btnExcluir.setEnabled(true);
-        if(Integer.parseInt(p.getCpf()) == -1){
-            btnExcluir.setEnabled(false);
-        }
 
         // Inflate the layout for this fragment
         return view;
@@ -234,40 +205,19 @@ public class CadastroProfissionalFragment extends Fragment {
         editEmail.setText("");
         editDataNascimento.setText("");
         editCpf.setText("");
+        editSenha.setText("");
+        editResenha.setText("");
+        editDescricao.setText("");
     }
 
-    private void cadastrarProfissional() {
-        p.setCpf(editCpf.getRawText());
-        p.setNomeCompleto(editNome.getText().toString());
-        p.setEmail(editEmail.getText().toString());
-        p.setTelefone(editTelefone.getRawText());
-        p.setDataNascimento(editDataNascimento.getRawText());
-        p.setEspecialidade(editEspecialidade.getText().toString());
-        p.setDescricao(editDescricao.getText().toString());
-        carregaImagem();
+    private void addLista(String cpf, String nome, String data_nascimento, String telefone, String email, String especialidade, String descricao, String senha) {
+        boolean insert = dbHelper.addProfissional(cpf,nome,data_nascimento,telefone,email,especialidade,descricao,senha);
 
-        p.salvar();
-    }
-
-    private void carregaImagem() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                p.setImagem(Auxilio.getImagemBytesFromUrl(p.getUrlGravatar()));
-                imageButton.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageButton.setImageBitmap(p.getAvatar());
-                    }
-                });
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        }catch (Exception e){
-            e.printStackTrace();
+        if(insert==true){
+            Toast.makeText(getActivity(),"Profissional cadastrado com sucesso!",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getActivity(),"Desculpe, houve um erro!",Toast.LENGTH_SHORT).show();
         }
-
     }
+
 }

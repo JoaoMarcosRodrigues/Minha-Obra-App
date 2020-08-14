@@ -2,6 +2,7 @@ package com.example.minhaobra;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     ProfissionalAdapter profissionalAdapter;
     ArrayList<Profissional> profissionais;
     private Profissional profissionalEdicao;
+
+    DBHelper dbHelper;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -42,23 +47,32 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         lista = view.findViewById(R.id.listView);
+        dbHelper = new DBHelper(getActivity());
 
-        profissionais = new Profissional(getContext()).getProfissionais();
-        profissionalAdapter = new ProfissionalAdapter(getContext(),profissionais);
+        ArrayList<Profissional> listaProfissionais = new ArrayList<Profissional>();
+        Cursor data = dbHelper.getAllProfissionais();
 
-        lista.setAdapter(profissionalAdapter);
+        if(data.getCount() == 0){
+            Toast.makeText(getActivity(),"A lista está vazia :(",Toast.LENGTH_SHORT).show();
+        }else{
+            while(data.moveToNext()){
+                Profissional p = new Profissional();
+                p.setCpf(data.getString(0));
+                p.setNomeCompleto(data.getString(1));
+                p.setDataNascimento(data.getString(2));
+                p.setTelefone(data.getString(3));
+                p.setEmail(data.getString(4));
+                p.setEspecialidade(data.getString(5));
+                p.setDescricao(data.getString(6));
+                p.setSenha(data.getString(7));
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Profissional p = profissionais.get(position);
-                Intent intent = new Intent(getContext(),CadastroProfissionalFragment.class);
-                intent.putExtra("consulta",p.getCpf());
-                startActivity(intent);
+                listaProfissionais.add(p);
+                ListAdapter listAdapter = new ProfissionalAdapter(getActivity(),listaProfissionais);
+                lista.setAdapter(listAdapter);
             }
-        });
-
+        }
 
         // Inflate the layout for this fragment
         return view;
@@ -67,13 +81,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onResume() {
         super.onResume();
-        if(profissionalEdicao!=null){
-            profissionalEdicao.carregaProfissionalCPF(profissionalEdicao.getCpf());
-            if(profissionalEdicao.isExcluir()){
-                profissionais.remove(profissionalEdicao);
-            }
-            profissionalAdapter.notifyDataSetChanged();
-        }
     }
 
     @Override

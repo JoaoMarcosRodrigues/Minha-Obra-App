@@ -19,6 +19,7 @@ public class Auxilio {
         }
         return sb.toString();
     }
+
     public static String md5Hex (String message) {
         try {
             MessageDigest md =
@@ -29,7 +30,8 @@ public class Auxilio {
         }
         return null;
     }
-    public static Bitmap getImagemBytes(byte[] bytes){
+
+    public static Bitmap getImagemBytes(byte [] bytes){
         return BitmapFactory.decodeByteArray(bytes,0,bytes.length);
     }
 

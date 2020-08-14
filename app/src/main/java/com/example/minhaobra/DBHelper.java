@@ -1,40 +1,78 @@
 package com.example.minhaobra;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 public class DBHelper extends SQLiteOpenHelper {
-    private static String NOME = "sqliteappminhaobra.db";
-    private static int VERSAO = 1;
+
+    private static String NOME_BANCO = "sqliteappminhaobra.db";
+    private static final String NOME_TABELA = "profissional";
+    private static final String CPF = "cpf";
+    private static final String NOME = "nome_completo";
+    private static final String DATA_NASCIMENTO = "data_nascimento";
+    private static final String TELEFONE = "telefone";
+    private static final String EMAIL = "email";
+    private static final String SENHA = "senha";
+    private static final String ESPECIALIDADE = "especialidade";
+    private static final String DESCRICAO = "descricao";
+
+    private static int VERSAO = 2;
 
     public DBHelper(Context context){
-        super(context,NOME,null,VERSAO);
+        super(context,NOME_BANCO,null,VERSAO);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(
-            "CREATE TABLE [profissional] (\n" +
-            "[cpf] VARCHAR(11)  UNIQUE NOT NULL PRIMARY KEY,\n" +
-            "[nome] VARCHAR(100)  NOT NULL,\n" +
-            "[email] VARCHAR(60)  UNIQUE NULL,\n" +
-            "[telefone] varchar(11)  NULL,\n" +
-            "[especialidade] varchar(50)  NULL,\n" +
-            "[data_nascimento] DATE  NOT NULL,\n" +
-            "[senha] varchar(60)  NOT NULL,\n" +
-            "[imagem] BLOB  NULL,\n" +
-            "[descricao] TEXT  NULL\n" +
-            ")"
-        );
+        String sql = "CREATE TABLE "+ NOME_TABELA + " ("+
+                CPF+" TEXT PRIMARY KEY," +
+                NOME+" TEXT NOT NULL," +
+                DATA_NASCIMENTO+" TEXT NOT NULL,"+
+                TELEFONE+" TEXT NOT NULL,"+
+                EMAIL+" TEXT NOT NULL,"+
+                ESPECIALIDADE+" TEXT NOT NULL,"+
+                DESCRICAO+" TEXT NOT NULL,"+
+                SENHA+" TEXT NOT NULL)";
+        db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        String sql = "DROP TABLE IF EXISTS "+NOME_TABELA;
+        db.execSQL(sql);
+        onCreate(db);
+    }
 
+    public boolean addProfissional(String cpf, String nome, String data_nascimento, String telefone, String email, String especialidade, String descricao,String senha){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(CPF,cpf);
+        contentValues.put(NOME,nome);
+        contentValues.put(DATA_NASCIMENTO,data_nascimento);
+        contentValues.put(TELEFONE,telefone);
+        contentValues.put(EMAIL,email);
+        contentValues.put(ESPECIALIDADE,especialidade);
+        contentValues.put(DESCRICAO,descricao);
+        contentValues.put(SENHA,senha);
+
+        long result = db.insert(NOME_TABELA,null,contentValues);
+
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public Cursor getAllProfissionais(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+NOME_TABELA,null);
+
+        return cursor;
     }
 }
+
