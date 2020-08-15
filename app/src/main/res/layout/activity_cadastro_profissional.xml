@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/viewTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cadastre-se"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_margin="20dp"
+                android:layout_centerHorizontal="true"/>
+
+            <ImageButton
+                android:id="@+id/fotoPerfil"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:backgroundTintMode="screen"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ic_foto"
+                android:backgroundTint="#B3B5B4"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@+id/viewTitulo"
+                android:clickable="true"/>
+
+            <EditText
+                android:id="@+id/editNomeCompleto"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/fotoPerfil"
+                android:drawableLeft="@drawable/ic_nome"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                android:hint="Nome completo"
+                android:background="@drawable/round_edit"
+                android:layout_margin="15dp"/>
+
+            <com.santalu.maskedittext.MaskEditText
+                android:id="@+id/editCPF"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:layout_below="@+id/editNomeCompleto"
+                android:hint="CPF"
+                android:layout_margin="15dp"
+                android:inputType="number"
+                android:drawableLeft="@drawable/ic_cpf"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                app:met_mask="###.###.###-##"/>
+
+            <com.santalu.maskedittext.MaskEditText
+                android:id="@+id/editDataNascimento"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:ems="10"
+                android:inputType="date"
+                android:layout_below="@+id/editCPF"
+                android:hint="Data de nascimento"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:drawableLeft="@drawable/ic_date"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                app:met_mask="##/##/####"/>
+
+            <com.santalu.maskedittext.MaskEditText
+                android:id="@+id/editTelefone"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:inputType="phone"
+                android:hint="Telefone"
+                android:layout_below="@+id/editDataNascimento"
+                android:layout_margin="15dp"
+                android:drawableLeft="@drawable/ic_phone"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                app:met_mask="(##) #####-####"/>
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:inputType="textEmailAddress"
+                android:hint="Email"
+                android:layout_below="@+id/editTelefone"
+                android:layout_margin="15dp"
+                android:drawableLeft="@drawable/ic_mail"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/editEspecialidade"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:hint="Especialidade"
+                android:layout_below="@+id/editEmail"
+                android:drawableLeft="@drawable/ic_especialidade"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="15dp"/>
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/editDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:hint="Descrição"
+                android:layout_margin="15dp"
+                android:drawableLeft="@drawable/ic_descricao"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                android:layout_below="@+id/editEspecialidade" />
+
+            <EditText
+                android:id="@+id/editSenha"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:inputType="numberPassword"
+                android:hint="Senha"
+                android:layout_below="@+id/editDescricao"
+                android:drawableLeft="@drawable/ic_senha"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="15dp"/>
+
+            <EditText
+                android:id="@+id/editResenha"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_edit"
+                android:inputType="numberPassword"
+                android:hint="Confirme a senha"
+                android:layout_below="@+id/editSenha"
+                android:drawableLeft="@drawable/ic_senha"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="15dp"/>
+
+            <Button
+                android:id="@+id/btnCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cadastrar"
+                android:layout_below="@+id/editResenha"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#8A262928"
+                android:layout_marginBottom="20dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

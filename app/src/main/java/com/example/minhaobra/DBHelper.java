@@ -75,12 +75,36 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor verificaCPF(String cpf, String senha){
+    // VERIFICAR SE ESTÁ CORRETO
+    public Profissional verificaCPF(String cpf, String senha){
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT cpf,senha FROM profissional WHERE cpf == "+cpf+" && senha == "+senha;
+        String sql = "SELECT cpf,senha FROM profissional WHERE cpf = "+cpf+" && senha = "+senha;
         Cursor cursor = db.rawQuery(sql,null);
 
-        return cursor;
+        if(cursor!=null)
+            cursor.moveToFirst();
+
+        Profissional p = new Profissional();
+
+        p.setCpf(cursor.getString(cursor.getColumnIndex(cpf)));
+        p.setSenha(cursor.getString(cursor.getColumnIndex(senha)));
+
+        return p;
+    }
+
+    // IMPLEMENTAR
+    public boolean redefinirSenha(String cpf, String senha){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(SENHA,senha);
+
+        int result = db.update(NOME_TABELA,contentValues,"cpf = ?",new String[]{cpf});
+
+        if(result == -1)
+            return false;
+        else
+            return true;
     }
 }
 

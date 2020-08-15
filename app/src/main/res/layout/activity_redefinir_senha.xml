@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".RedefinirSenha">
 
     <ImageView
         android:id="@+id/imageLogo"
@@ -46,50 +46,30 @@
         android:autofillHints="Senha"
         android:layout_below="@id/editUsuario"/>
 
-    <TextView
-        android:id="@+id/viewTituloRedefinirSenha"
-        android:layout_width="wrap_content"
-        android:textColor="#902B2929"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editSenha"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="60dp"
-        android:text="Esqueceu a senha?"/>
-
-    <TextView
-        android:id="@+id/viewRedefinirSenha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#162FCC"
-        android:layout_toRightOf="@id/viewTituloRedefinirSenha"
-        android:layout_below="@+id/editSenha"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="60dp"
-        android:linksClickable="true"
-        android:text="Redefinir Senha"/>
-
-    <Button
-        android:id="@+id/btnEntrar"
+    <EditText
+        android:id="@+id/editResenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_below="@+id/viewTituloRedefinirSenha"
-        android:layout_marginTop="30dp"
-        android:background="#69A1BF"
-        android:layout_centerHorizontal="true"
-        android:text="Entrar"/>
+        android:hint="Confirme a senha"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:inputType="numberPassword"
+        android:drawableLeft="@drawable/ic_senha"
+        android:paddingLeft="10dp"
+        android:drawablePadding="10dp"
+        android:autofillHints="Confirme a senha"
+        android:layout_below="@id/editSenha"/>
 
     <Button
-        android:id="@+id/btnCadastrese"
+        android:id="@+id/btnRedefinir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Redefinir"
+        android:layout_below="@id/editResenha"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_below="@+id/btnEntrar"
-        android:layout_marginTop="10dp"
-        android:background="#69A1BF"
-        android:layout_centerHorizontal="true"
-        android:text="Cadastrar-se"/>
+        android:layout_marginTop="30dp"/>
 
 </RelativeLayout>

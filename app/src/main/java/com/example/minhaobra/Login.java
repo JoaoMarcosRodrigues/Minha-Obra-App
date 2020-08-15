@@ -18,8 +18,8 @@ public class Login extends AppCompatActivity {
 
     EditText editSenha;
     MaskEditText editUsuario;
-    Button btnEntrar;
-    TextView txtCadastrar;
+    Button btnEntrar,btnCadastrar;
+    TextView txtRedefinirSenha;
 
     DBHelper dbHelper;
 
@@ -31,7 +31,8 @@ public class Login extends AppCompatActivity {
         editUsuario = findViewById(R.id.editUsuario);
         editSenha = findViewById(R.id.editSenha);
         btnEntrar = findViewById(R.id.btnEntrar);
-        txtCadastrar = findViewById(R.id.viewCadastrar);
+        btnCadastrar = findViewById(R.id.btnCadastrese);
+        txtRedefinirSenha = findViewById(R.id.viewRedefinirSenha);
 
         dbHelper = new DBHelper(this);
 
@@ -46,15 +47,26 @@ public class Login extends AppCompatActivity {
                 }else if(senha.length() == 0){
                     editSenha.setError("Campo obrigatório");
                 }else{
-                    verificaCpf(usuario,senha);
+                    //verificaCpf(usuario,senha);
+                    Toast.makeText(Login.this,"Seja Bem-Vindo!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this,MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
 
-        txtCadastrar.setOnClickListener(new View.OnClickListener() {
+        btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login.this,CadastroProfissionalFragment.class);
+                Intent intent = new Intent(Login.this,CadastroProfissional.class);
+                startActivity(intent);
+            }
+        });
+
+        txtRedefinirSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this,RedefinirSenha.class);
                 startActivity(intent);
             }
         });
@@ -63,8 +75,10 @@ public class Login extends AppCompatActivity {
     }
 
     private void verificaCpf(String cpf, String senha) {
-        Cursor ok = dbHelper.verificaCPF(cpf,senha);
-        if(ok.moveToFirst()){
+        Profissional p = dbHelper.verificaCPF(cpf,senha);
+
+        if(p.getCpf() == cpf && p.getSenha() == senha){
+            Toast.makeText(this,"Seja Bem-Vindo!",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this,HomeFragment.class);
             startActivity(intent);
         }else{

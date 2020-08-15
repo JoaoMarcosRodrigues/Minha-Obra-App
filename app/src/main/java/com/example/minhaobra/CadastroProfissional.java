@@ -1,18 +1,14 @@
 package com.example.minhaobra;
 
-import android.Manifest;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,21 +16,7 @@ import android.widget.Toast;
 
 import com.santalu.maskedittext.MaskEditText;
 
-import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_OK;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CadastroProfissionalFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CadastroProfissionalFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class CadastroProfissional extends AppCompatActivity {
 
     ImageButton imageButton;
     EditText editNome;
@@ -55,59 +37,24 @@ public class CadastroProfissionalFragment extends Fragment {
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CadastroProfissionalFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CadastroProfissionalFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CadastroProfissionalFragment newInstance(String param1, String param2) {
-        CadastroProfissionalFragment fragment = new CadastroProfissionalFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        setContentView(R.layout.activity_cadastro_profissional);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cadastro_profissional, container, false);;
+        imageButton = findViewById(R.id.fotoPerfil);
+        btnCadastrar = findViewById(R.id.btnCadastrar);
+        editDescricao = findViewById(R.id.editDescricao);
+        editCpf = findViewById(R.id.editCPF);
+        editDataNascimento = findViewById(R.id.editDataNascimento);
+        editEmail = findViewById(R.id.editEmail);
+        editNome = findViewById(R.id.editNomeCompleto);
+        editEspecialidade = findViewById(R.id.editEspecialidade);
+        editTelefone = findViewById(R.id.editTelefone);
+        editSenha = findViewById(R.id.editSenha);
+        editResenha = findViewById(R.id.editResenha);
 
-        imageButton = view.findViewById(R.id.fotoPerfil);
-        btnCadastrar = view.findViewById(R.id.btnCadastrar);
-        editDescricao = view.findViewById(R.id.editDescricao);
-        editCpf = view.findViewById(R.id.editCPF);
-        editDataNascimento = view.findViewById(R.id.editDataNascimento);
-        editEmail = view.findViewById(R.id.editEmail);
-        editNome = view.findViewById(R.id.editNomeCompleto);
-        editEspecialidade = view.findViewById(R.id.editEspecialidade);
-        editTelefone = view.findViewById(R.id.editTelefone);
-        editSenha = view.findViewById(R.id.editSenha);
-        editResenha = view.findViewById(R.id.editResenha);
-
-        dbHelper = new DBHelper(getActivity());
+        dbHelper = new DBHelper(this);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +68,7 @@ public class CadastroProfissionalFragment extends Fragment {
                     }else{
 
                      */
-                        pegarImagemGaleria();
+                    pegarImagemGaleria();
                 } else{
                     pegarImagemGaleria();
                 }
@@ -161,19 +108,18 @@ public class CadastroProfissionalFragment extends Fragment {
                 }else{
                     // Verificar se o profissional já tem cadastro
                     addLista(cpf,nome,data_nascimento,telefone,email,especialidade,descricao,senha);
-                    limparCampos();
+                    //limparCampos();
+                    Intent intent = new Intent(CadastroProfissional.this,Login.class);
+                    startActivity(intent);
                 }
             }
         });
-
-
-        // Inflate the layout for this fragment
-        return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             imageButton.setImageURI(data.getData());
         }
     }
@@ -185,7 +131,7 @@ public class CadastroProfissionalFragment extends Fragment {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     pegarImagemGaleria();
                 }else{
-                    Toast.makeText(getContext(),"Permissão negada!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"Permissão negada!",Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -214,10 +160,9 @@ public class CadastroProfissionalFragment extends Fragment {
         boolean insert = dbHelper.addProfissional(cpf,nome,data_nascimento,telefone,email,especialidade,descricao,senha);
 
         if(insert==true){
-            Toast.makeText(getActivity(),"Profissional cadastrado com sucesso!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Profissional cadastrado com sucesso!",Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(getActivity(),"Desculpe, houve um erro!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Desculpe, houve um erro!",Toast.LENGTH_SHORT).show();
         }
     }
-
 }
