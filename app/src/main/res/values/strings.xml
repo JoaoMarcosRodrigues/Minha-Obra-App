@@ -4,4 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="titulo_editando">Editando profissional</string>
     <string name="titulo_inserindo">Inserindo profissional</string>
+    <string name="checkbox">com.example.minhaobra.checkbox</string>
+    <string name="cpf">com.example.minhaobra.cpf</string>
+    <string name="senha">com.example.minhaobra.senha</string>
 </resources>

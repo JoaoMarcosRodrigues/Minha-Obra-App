@@ -24,7 +24,7 @@ public class RedefinirSenha extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_redefinir_senha);
 
-        editCPF = findViewById(R.id.editCPF);
+        editCPF = findViewById(R.id.editUsuario);
         editSenha = findViewById(R.id.editSenha);
         editResenha = findViewById(R.id.editResenha);
         btnRedefinir = findViewById(R.id.btnRedefinir);
@@ -34,13 +34,14 @@ public class RedefinirSenha extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String senha = editSenha.getText().toString();
+                String resenha = editResenha.getText().toString();
                 String cpf = editCPF.getRawText();
 
                 if(cpf.length() == 0){
                     editCPF.setError("Campo obrigatório");
                 }else if(senha.length() == 0){
                     editSenha.setError("Campo obrigatório");
-                }else if(editSenha.getText().toString() != editResenha.getText().toString()){
+                }else if(!senha.equals(resenha)){
                     editResenha.setError("Senha não confere! Tente novamente");
                 }else{
                     redefinirSenha(cpf,senha);
@@ -60,4 +61,5 @@ public class RedefinirSenha extends AppCompatActivity {
             Toast.makeText(this,"Houve um erro! Tente mais tarde.",Toast.LENGTH_SHORT).show();
         }
     }
+
 }

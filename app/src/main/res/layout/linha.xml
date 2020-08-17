@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginBottom="30dp"
     android:background="?attr/selectableItemBackground">
 
     <LinearLayout
@@ -19,7 +18,7 @@
 
             <ImageView
                 android:id="@+id/imagemPerfil"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher_background"/>
@@ -29,10 +28,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/imagemPerfil"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="Nome Completo"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -44,7 +43,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:text="Telefone"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/txtEmail"
@@ -55,7 +54,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:text="Email"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -68,30 +67,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Especialidade"
-                android:textSize="15sp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"/>
-
-            <TextView
-                android:id="@+id/txtAreas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Áreas"
-                android:textSize="15sp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/txtEspecialidade"
-                android:layout_marginTop="15dp"/>
-
-            <TextView
-                android:id="@+id/txtDescricao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Descrição"
-                android:textSize="15sp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/txtAreas"
+                android:textSize="16sp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"/>
+
         </RelativeLayout>
 
     </LinearLayout>

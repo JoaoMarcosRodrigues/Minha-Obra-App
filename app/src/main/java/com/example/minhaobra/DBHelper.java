@@ -76,23 +76,22 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // VERIFICAR SE ESTÁ CORRETO
-    public Profissional verificaCPF(String cpf, String senha){
+    public boolean autenticaProfissional(Profissional p){
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT cpf,senha FROM profissional WHERE cpf = "+cpf+" && senha = "+senha;
+        String sql = "SELECT * FROM profissional WHERE cpf = "+ "'" + p.getCpf() + "'";
         Cursor cursor = db.rawQuery(sql,null);
 
-        if(cursor!=null)
-            cursor.moveToFirst();
-
-        Profissional p = new Profissional();
-
-        p.setCpf(cursor.getString(cursor.getColumnIndex(cpf)));
-        p.setSenha(cursor.getString(cursor.getColumnIndex(senha)));
-
-        return p;
+        while(cursor.moveToNext()){
+            if(p.getCpf().equals(cursor.getString(cursor.getColumnIndex("cpf")))){
+                if(p.getSenha().equals(cursor.getString(cursor.getColumnIndex("senha")))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    // IMPLEMENTAR
+    // OK
     public boolean redefinirSenha(String cpf, String senha){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

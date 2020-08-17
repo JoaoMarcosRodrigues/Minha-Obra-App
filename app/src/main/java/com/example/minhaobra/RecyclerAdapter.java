@@ -90,8 +90,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView telefone;
         TextView email;
         TextView especialidade;
-        TextView areas;
-        TextView descricao;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,8 +99,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             telefone = itemView.findViewById(R.id.txtTelefone);
             email = itemView.findViewById(R.id.txtEmail);
             especialidade = itemView.findViewById(R.id.txtEspecialidade);
-            areas = itemView.findViewById(R.id.txtAreas);
-            descricao = itemView.findViewById(R.id.txtDescricao);
 
             itemView.setOnClickListener(this);
 

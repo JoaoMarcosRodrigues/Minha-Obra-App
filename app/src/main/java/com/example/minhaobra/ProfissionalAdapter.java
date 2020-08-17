@@ -34,16 +34,12 @@ public class ProfissionalAdapter extends ArrayAdapter {
         TextView telefone = rowView.findViewById(R.id.txtTelefone);
         TextView email = rowView.findViewById(R.id.txtEmail);
         TextView especialidade = rowView.findViewById(R.id.txtEspecialidade);
-        TextView areas = rowView.findViewById(R.id.txtAreas);
-        TextView descricao = rowView.findViewById(R.id.txtDescricao);
 
 
         nome.setText(elementos.get(position).getNomeCompleto());
         email.setText(elementos.get(position).getEmail());
         telefone.setText(elementos.get(position).getTelefone());
-        especialidade.setText(elementos.get(position).getEspecialidade());
-        areas.setText("-");
-        descricao.setText(elementos.get(position).getDescricao());
+        especialidade.setText("Especialidade: "+elementos.get(position).getEspecialidade());
 
         return rowView;
     }
