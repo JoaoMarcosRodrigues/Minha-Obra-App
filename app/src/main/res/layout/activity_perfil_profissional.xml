@@ -21,6 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome Completo"
+        android:lines="1"
+        android:ellipsize="end"
         android:layout_below="@id/perfil"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
@@ -32,6 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Especialidade"
+        android:lines="1"
+        android:ellipsize="end"
         android:textStyle="italic"
         android:layout_below="@id/txtNome"
         android:layout_centerHorizontal="true"
@@ -47,6 +51,8 @@
         android:layout_marginTop="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:lines="1"
+        android:ellipsize="end"
         android:enabled="false"
         android:textSize="16sp"/>
 

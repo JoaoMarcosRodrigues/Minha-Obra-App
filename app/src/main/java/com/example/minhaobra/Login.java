@@ -85,12 +85,6 @@ public class Login extends AppCompatActivity{
                     editSenha.setError("Campo obrigatório");
                 }else{
                     autenticaProfissional(usuario,senha);
-                    /*
-                    Toast.makeText(Login.this,"Seja Bem-Vindo!",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Login.this,MainActivity.class);
-                    startActivity(intent);
-
-                     */
                 }
             }
         });
@@ -136,6 +130,7 @@ public class Login extends AppCompatActivity{
         if(ok == true){
             Toast.makeText(this,"Seja Bem-Vindo!",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this,MainActivity.class);
+            intent.putExtra("chave_cpf",cpf);
             startActivity(intent);
         }else{
             Toast.makeText(this,"Usuário ou senha inválido! Tente novamente.",Toast.LENGTH_SHORT).show();

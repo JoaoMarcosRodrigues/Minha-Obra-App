@@ -29,7 +29,7 @@
                 android:layout_height="30dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_menu"
-                android:tint="#FFFFFF"/>
+                app:tint="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textTitle"

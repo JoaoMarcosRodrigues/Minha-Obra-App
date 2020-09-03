@@ -7,9 +7,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -19,6 +23,9 @@ public class MainActivity extends AppCompatActivity{
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     NavController navController;
+    DBHelper dbHelper;
+    TextView nomeCompleto,email;
+    View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,21 @@ public class MainActivity extends AppCompatActivity{
         drawerLayout = findViewById(R.id.drawerLayout);
         imageMenu = findViewById(R.id.imageMenu);
         navigationView = findViewById(R.id.navigationView);
+        headerView = navigationView.getHeaderView(0);
+
+        nomeCompleto = headerView.findViewById(R.id.txtNome);
+        email = headerView.findViewById(R.id.txtViewEmail);
+
+        // INICIO NAV HEADER
+        Intent intent = getIntent();
+        String cpf = intent.getStringExtra("chave_cpf");
+        //Toast.makeText(this,cpf,Toast.LENGTH_SHORT).show();
+
+        //Profissional p = dbHelper.retornaProfissional(cpf);
+
+        nomeCompleto.setText("João Marcos");
+        email.setText("joao@gmail.com");
+        // FIM NAV HEADER
 
         imageMenu.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -105,5 +105,21 @@ public class DBHelper extends SQLiteOpenHelper {
         else
             return true;
     }
+
+    public Profissional retornaProfissional(String cpf){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM "+NOME_TABELA+" WHERE "+CPF+" = "+cpf;
+        Cursor cursor = db.rawQuery(sql,null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+
+        Profissional p = new Profissional();
+        p.setNomeCompleto(cursor.getString(cursor.getColumnIndex("nome_completo")));
+        p.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+
+        return p;
+    }
 }
 
