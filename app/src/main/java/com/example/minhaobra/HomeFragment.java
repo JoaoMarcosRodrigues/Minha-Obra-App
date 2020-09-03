@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         lista = view.findViewById(R.id.listView);
         dbHelper = new DBHelper(getActivity());
 
-        ArrayList<Profissional> listaProfissionais = new ArrayList<Profissional>();
+        final ArrayList<Profissional> listaProfissionais = new ArrayList<Profissional>();
         Cursor data = dbHelper.getAllProfissionais();
 
         if(data.getCount() == 0){
@@ -73,6 +73,31 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 lista.setAdapter(listAdapter);
             }
         }
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String nomeCompleto = listaProfissionais.get(i).getNomeCompleto();
+                String especialidade = listaProfissionais.get(i).getEspecialidade();
+                String email = listaProfissionais.get(i).getEmail();
+                String telefone = listaProfissionais.get(i).getTelefone();
+                String descricao = listaProfissionais.get(i).getDescricao();
+
+                Intent intent = new Intent(getActivity(),PerfilProfissional.class);
+                Bundle parametros = new Bundle();
+
+                parametros.putString("chave_nome",nomeCompleto);
+                parametros.putString("chave_especialidade",especialidade);
+                parametros.putString("chave_email",email);
+                parametros.putString("chave_telefone",telefone);
+                parametros.putString("chave_descricao",descricao);
+
+                intent.putExtras(parametros);
+                startActivity(intent);
+
+                //Toast.makeText(getActivity(),"Nome: "+ listaProfissionais.get(i).getNomeCompleto(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;

@@ -11,7 +11,8 @@
         android:roundIcon="@drawable/logo_minha_obra"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CadastroProfissional"></activity>
+        <activity android:name=".PerfilProfissional" />
+        <activity android:name=".CadastroProfissional" />
         <activity android:name=".RedefinirSenha" />
         <activity android:name=".MainActivity" />
         <activity
